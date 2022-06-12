@@ -1,0 +1,10 @@
+Django==3.2
+djangorestframework
+django-cors-headers
+gunicorn
+django-heroku
+psycopg2-binary
+python-dotenv
+pytest
+requests
+python-dateutil

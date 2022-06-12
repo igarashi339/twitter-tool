@@ -1,0 +1,11 @@
+version: '3'
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    volumes:
+      - ./backend:/code
+    ports:
+      - '8002:8002'
+    command: bash scripts/run_server.sh
