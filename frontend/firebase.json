@@ -1,0 +1,31 @@
+{
+  "hosting": {
+    "public": "public",
+    "ignore": [
+      "firebase.json",
+      "**/node_modules/**",
+      "Dockerfile",
+      ".gitignore"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "function": "nextjsFunc"
+      }
+    ]
+  },
+  "functions": {
+    "source": ".",
+    "ignore": [
+      "firebase.json",
+      "**/node_modules/**",
+      "Dockerfile",
+      ".gitignore"
+    ],
+    "predeploy": [
+      "yarn --cwd \"$PROJECT_DIR\" install",
+      "yarn --cwd \"$PROJECT_DIR\" run build"
+    ],
+    "runtime": "nodejs16"
+  }
+}
