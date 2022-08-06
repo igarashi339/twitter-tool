@@ -17,3 +17,13 @@ build:
 .PHONY: delete-all
 delete-all:
 	docker-compose down --rmi all --volumes
+
+# フロントエンドのコンテナに入る
+.PHONY: sh
+sh:
+	docker-compose run --rm frontend bash
+
+# nodemodulesを手元にコピーする(エディターの補完を効かせるため)
+.PHONY: copy
+copy:
+	sudo docker cp next:/code/node_modules ./frontend/
