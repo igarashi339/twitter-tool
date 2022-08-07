@@ -1,0 +1,26 @@
+name: Deploy to Preview Channel
+
+on:
+  pull_request:
+
+jobs:
+  build_and_preview:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x]
+    steps:
+      - uses: actions/checkout@v2
+      - name: yarn install
+        run: yarn install --frozen-lockfile
+        working-directory: ./frontend
+      - name: yarn build
+        run: yarn build
+        working-directory: ./frontend
+      - uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT }}"
+          expires: 30d
+          projectId: twitter-tool-11
+          entrypoint: ./frontend
