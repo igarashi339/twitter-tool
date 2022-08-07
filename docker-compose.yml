@@ -9,3 +9,13 @@ services:
     ports:
       - '8002:8002'
     command: bash scripts/run_server.sh
+  frontend:
+    container_name: twitter-tool-frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    volumes:
+      - ./frontend:/code
+      - /code/node_modules
+    ports:
+      - '3040:3040'
