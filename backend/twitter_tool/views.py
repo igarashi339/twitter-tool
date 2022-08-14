@@ -1,7 +1,7 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from twitter_api_v2_handler import TwitterApiV2Hander
-from db_handler import DbHandler
+from twitter_tool.twitter_api_v2_handler import TwitterApiV2Hander
+from twitter_tool.db_handler import DbHandler
 import json
 
 @api_view(["GET"])
