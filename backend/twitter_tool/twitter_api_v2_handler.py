@@ -1,6 +1,7 @@
 from requests_oauthlib import OAuth1Session
 
-class TwitterApiV2Hander:
+
+class TwitterApiV2Handler:
     def __init__(self, consumer_key, consumer_secret, access_token, access_token_secret):
         self.oauth = OAuth1Session(
             consumer_key,
@@ -15,4 +16,4 @@ class TwitterApiV2Hander:
             "https://api.twitter.com/2/tweets",
             json=payload,
         )
-        return response.status_code
+        return response
