@@ -4,6 +4,7 @@ from twitter_tool.twitter_api_v2_handler import TwitterApiV2Handler
 from twitter_tool.db_handler import DbHandler
 import json
 
+
 @api_view(["GET"])
 def ping(request):
     return Response("OK")
@@ -19,6 +20,7 @@ def echo_post_json(request):
         })
     except:
         return Response("パラメタのパースに失敗しました。")
+
 
 @api_view(["POST"])
 def create_tweet(request):
