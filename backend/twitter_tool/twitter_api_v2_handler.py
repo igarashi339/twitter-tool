@@ -10,8 +10,15 @@ class TwitterApiV2Handler:
             resource_owner_secret=access_token_secret,
         )
 
-    def create_tweet(self, text):
-        payload = { "text": text }
+    def create_tweet(self, text, media_ids):
+        payload = {
+            "text": text
+        }
+        if media_ids:
+            payload["media"] = {
+                "media_ids": media_ids,
+                "tagged_user_ids": []
+            }
         response = self.oauth.post(
             "https://api.twitter.com/2/tweets",
             json=payload,
