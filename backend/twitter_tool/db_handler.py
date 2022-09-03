@@ -19,3 +19,11 @@ class DbHandler():
             access_token_secret = ""
         
         return consumer_key, consumer_secret, access_token, access_token_secret
+    
+    def get_userid_from_username(self, username):
+        # todo: username -> userid のマッピングはDBに保持するようにする
+        if username == "devjima":
+            userid = os.getenv("USERID")
+        else:
+            userid = "0000"
+        return userid
