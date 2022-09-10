@@ -24,3 +24,26 @@ class TwitterApiV2Handler:
             json=payload,
         )
         return response
+    
+    def like_tweet(self, like_exec_user_id, tweet_id):
+        """
+        like_exec_user_id: likeする側のユーザID
+        tweet_id: likeするツイートのID
+        """
+        payload = {
+            "tweet_id": tweet_id
+        }
+        response = self.oauth.post(
+            "https://api.twitter.com/2/users/{}/likes".format(like_exec_user_id), json=payload
+        )
+        return response
+
+    def unlike_tweet(self, unlike_exec_user_id, tweet_id):
+        """
+        unlike_exec_user_id: unlikeする側のユーザID
+        tweet_id: unlikeするツイートのID
+        """
+        response = self.oauth.delete(
+            "https://api.twitter.com/2/users/{}/likes/{}".format(unlike_exec_user_id, tweet_id)
+        )
+        return response
