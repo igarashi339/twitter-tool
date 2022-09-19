@@ -24,6 +24,8 @@ class DbHandler():
         # todo: username -> userid のマッピングはDBに保持するようにする
         if username == "devjima":
             userid = os.getenv("USERID")
+        elif username == "igarashi20608":
+            userid = "2424817662"
         else:
             userid = "0000"
         return userid

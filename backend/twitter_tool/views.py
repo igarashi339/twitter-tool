@@ -53,6 +53,7 @@ def create_tweet(request):
     except:
         return Response("ツイートの投稿に失敗しました。")
 
+
 @api_view(["POST"])
 def create_like(request):
     try:
@@ -86,6 +87,7 @@ def create_like(request):
         return Response(response_str)
     except:
         return Response("ツイートのいいねに失敗しました。")
+
 
 @api_view(["POST"])
 def delete_like(request):
@@ -121,6 +123,7 @@ def delete_like(request):
     except:
         return Response("ツイートのいいねの解除に失敗しました。")
 
+
 @api_view(["POST"])
 def upload_media(request):
     try:
@@ -149,3 +152,81 @@ def upload_media(request):
         return Response(response_str)
     except:
         return Response("メディアのアップロードに失敗しました。")
+
+
+@api_view(["POST"])
+def create_follow(request):
+    try:
+        json_data = json.loads(request.body)
+    except:
+        return Response("Jsonのパースに失敗しました。")
+
+    try:
+        twitter_tool_user_id = json_data["twitter-tool-user-id"]
+        twitter_username = json_data["twitter-username"]
+        follow_target_user_name = json_data["follow-target-user-name"]
+    except:
+        return Response("Jsonのキーにtwitter-tool-user-id,twitter-username,follow-target-user-nameのいずれかが存在しません。")
+
+    db_handler = DbHandler()
+    try:
+        consumer_key, consumer_secret, access_token, access_token_secret = db_handler.get_keys(twitter_tool_user_id, twitter_username)
+    except:
+        return Response("キー情報の情報取得に失敗しました。")
+    try:
+        twitter_userid = db_handler.get_userid_from_username(twitter_username)
+        # todo:
+        #  現状、APIはusernameベースのやりとりになっているが、システム的にはuser_idベースのほうが都合がよい。
+        #  どこかのタイミングでuser_idベースに直したほうがよさそう。
+        follow_target_user_id = db_handler.get_userid_from_username(follow_target_user_name)
+    except:
+        return Response("TwitterUserIdの取得に失敗しました。")
+
+    if access_token == "" or access_token_secret == "":
+        return Response(f"twitter-tool-user-id={twitter_tool_user_id}, twitter-user-name={twitter_username}のユーザが存在しません。")
+
+    try:
+        twitter_api_v2_handler = TwitterApiV2Handler(consumer_key, consumer_secret, access_token, access_token_secret)
+        response_str = twitter_api_v2_handler.follow_user(twitter_userid, follow_target_user_id)
+        return Response(response_str)
+    except:
+        return Response("ツイートのいいねの解除に失敗しました。")
+
+
+@api_view(["POST"])
+def delete_follow(request):
+    try:
+        json_data = json.loads(request.body)
+    except:
+        return Response("Jsonのパースに失敗しました。")
+
+    try:
+        twitter_tool_user_id = json_data["twitter-tool-user-id"]
+        twitter_username = json_data["twitter-username"]
+        unfollow_target_user_name = json_data["unfollow-target-user-name"]
+    except:
+        return Response("Jsonのキーにtwitter-tool-user-id,twitter-username,unfollow_target_user_nameのいずれかが存在しません。")
+
+    db_handler = DbHandler()
+    try:
+        consumer_key, consumer_secret, access_token, access_token_secret = db_handler.get_keys(twitter_tool_user_id, twitter_username)
+    except:
+        return Response("キー情報の情報取得に失敗しました。")
+    try:
+        twitter_userid = db_handler.get_userid_from_username(twitter_username)
+        # todo:
+        #  現状、APIはusernameベースのやりとりになっているが、システム的にはuser_idベースのほうが都合がよい。
+        #  どこかのタイミングでuser_idベースに直したほうがよさそう。
+        unfollow_target_user_id = db_handler.get_userid_from_username(unfollow_target_user_name)
+    except:
+        return Response("TwitterUserIdの取得に失敗しました。")
+
+    if access_token == "" or access_token_secret == "":
+        return Response(f"twitter-tool-user-id={twitter_tool_user_id}, twitter-user-name={twitter_username}のユーザが存在しません。")
+
+    try:
+        twitter_api_v2_handler = TwitterApiV2Handler(consumer_key, consumer_secret, access_token, access_token_secret)
+        response_str = twitter_api_v2_handler.unfollow_user(twitter_userid, unfollow_target_user_id)
+        return Response(response_str)
+    except:
+        return Response("ツイートのいいねの解除に失敗しました。")
