@@ -8,5 +8,7 @@ urlpatterns = [
     path('tweets/create', views.create_tweet, name="create_tweet"),
     path('likes/create',views.create_like, name="create_like"),
     path('likes/delete',views.delete_like, name="unlike_tweet"),
-    path('media/upload', views.upload_media, name="delete_like")
+    path('media/upload', views.upload_media, name="delete_like"),
+    path('follows/create', views.create_follow, name="create_follow"),
+    path('follows/delete', views.delete_follow, name="delete_follow")
 ]

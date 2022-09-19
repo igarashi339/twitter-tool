@@ -47,3 +47,26 @@ class TwitterApiV2Handler:
             "https://api.twitter.com/2/users/{}/likes/{}".format(unlike_exec_user_id, tweet_id)
         )
         return response
+
+    def follow_user(self, follow_src_user_id, follow_target_user_id):
+        """
+        follow_src_user_id: フォローする側のユーザID
+        follow_target_user_id: フォローされる側のユーザID
+        """
+        payload = {
+            "target_user_id": follow_target_user_id
+        }
+        response = self.oauth.post(
+            f"https://api.twitter.com/2/users/{follow_src_user_id}/following", json=payload
+        )
+        return response
+
+    def unfollow_user(self, unfollow_src_user_id, unfollow_target_user_id):
+        """
+        unfollow_src_user_id: アンフォローする側のユーザID
+        unfollow_target_user_id: アンフォローされる側のユーザID
+        """
+        response = self.oauth.delete(
+            f"https://api.twitter.com/2/users/{unfollow_src_user_id}/following/{unfollow_target_user_id}"
+        )
+        return response
